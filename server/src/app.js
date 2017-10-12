@@ -28,4 +28,35 @@ app.get('/', (req, res) => {
   })
 })
 
+app.post('/template', (req, res) => {
+  let body = req.body
+  let template = templates.create(body.title, body.cost,
+                                  body.description, body.thumbnail, body.image)
+  res.json(template)
+  res.status(200).end()
+})
+
+app.patch('/template/:id', (req, res) => {
+  var id = req.params.id
+  var body = req.body
+  var template = templates.update(id, body)
+  if (template){
+    res.json(template)
+    res.status(200).end()
+  }
+  else{
+    res.status(400).end()
+  }
+})
+
+app.delete('/template/:id', (req, res) => {
+  var id = req.params.id
+  if(templates.delete(id)){
+    res.status(200).end()
+  }
+  else{
+    res.status(400).end()
+  }
+})
+
 app.listen(process.env.PORT || 8081)
